@@ -3,7 +3,7 @@
 	include DriverJeuLaser.inc
 		
 
-; ====================== zone de réservation de données,  ======================================
+; ====================== zone de rÃ©servation de donnÃ©es,  ======================================
 ;Section RAM (read only) :
 	area    mesdata,data,readonly
 
@@ -31,16 +31,16 @@ timer_callback proc
 	push	{LR}				; empiler l'adresse de retour
 	mov		r1, #0				; FlagCligno=0
 	str		r1, [r0]			; 0 --> FlagCligno
-	mov 	r0, #1				; Stock le paramètre 1 dans R0
+	mov 	r0, #1				; Stock le paramÃ¨tre 1 dans R0
 	bl 		GPIOB_Set 			; GPIOB_Set(1);
-	pop		{PC}				; dépiler directement dans PC
+	pop		{PC}				; dÃ©piler directement dans PC
 FlagClignoElse
 	push	{LR}				; empiler l'adresse de retour
 	mov		r1, #1				; FlagCligno=1;
 	str		r1, [r0]			; 1 --> FlagCligno
-	mov 	r0, #1				; Stock le paramètre 1 dans R0
+	mov 	r0, #1				; Stock le paramÃ¨tre 1 dans R0
 	bl 		GPIOB_Clear 		; GPIOB_Clear(1);
-	pop		{PC}				; dépiler directement dans PC
+	pop		{PC}				; dÃ©piler directement dans PC
 	
 	endp
 		
