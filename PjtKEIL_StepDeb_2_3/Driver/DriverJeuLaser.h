@@ -1,9 +1,9 @@
 /**
- * Bibliotheque DriverJeuLaser (ancienne gassp72 adaptÃ©e 2021 - TR)
+ * Bibliotheque DriverJeuLaser (ancienne gassp72 adaptée 2021 - TR)
  *
  * GPIO - ADC - Sequenceur - System Timer - PWM - 72 MHz
  * Modifs :
- * enlÃ¨vement de tout ce qui est inutile dans le .h 
+ * enlèvement de tout ce qui est inutile dans le .h 
  * ajout de fonctions GPIO dans le .c pour utilisation en ASM ou en C :
  *  - GPIOA_Set(char Broche), GPIOB_Set(char Broche), GPIOC_Set(char Broche)
  *  - GPIOA_Clear(char Broche), GPIOB_Clear(char Broche), GPIOC_Clear(char Broche)
@@ -42,15 +42,15 @@ void CLOCK_Configure(void);
 
 
 //**********************************************************************************************************
-//---------------------          LES TIMERS GENERAL PURPOSE TIM1 Ã  TIM 4      ------------------------------
+//---------------------          LES TIMERS GENERAL PURPOSE TIM1 à TIM 4      ------------------------------
 //**********************************************************************************************************
 
 /**
-	* @brief  Configure un Timer TIM1 Ã  TIM4 avec une pÃ©riodicitÃ© donnÃ©e
-  * @note   L' horloge des 4 timers a une frÃ©quence de 72MHz
+	* @brief  Configure un Timer TIM1 à TIM4 avec une périodicité donnée
+  * @note   L' horloge des 4 timers a une fréquence de 72MHz
 	* @param  *Timer = TIM1 ou TIM2 ou TIM3 ou TIM4
-	* @param  DurÃ©e_ticks : nombre de pas (tick) comptÃ©s Ã  72 MHz pour faire dÃ©border le timer 
-	*         La pÃ©riode de dÃ©bordement du Timer est donc T = DurÃ©e_ticks * Tck, avec Tck = 1/72 000 000
+	* @param  Durée_ticks : nombre de pas (tick) comptés à 72 MHz pour faire déborder le timer 
+	*         La période de débordement du Timer est donc T = Durée_ticks * Tck, avec Tck = 1/72 000 000
   * @retval None
   */
 void Timer_1234_Init_ff( TIM_TypeDef *Timer, u32 Duree_ticks );
@@ -66,11 +66,11 @@ void Timer_1234_Init_ff( TIM_TypeDef *Timer, u32 Duree_ticks );
 
 
 /**
-	* @brief  Associe une fonction d'interruption (callback) lors du dÃ©bordement d'un timer
+	* @brief  Associe une fonction d'interruption (callback) lors du débordement d'un timer
   * @note   
 	* @param  *Timer = TIM1 ou TIM2 ou TIM3 ou TIM4
-	* @param  Prio : niveau de prioritÃ© de l'interruption (0 -> prioritÃ© max, 15 ->  prioritÃ© min)
-	* @param  IT_function : le nom de la fonction Callback Ã  appeler lors de l'interruption
+	* @param  Prio : niveau de priorité de l'interruption (0 -> priorité max, 15 ->  priorité min)
+	* @param  IT_function : le nom de la fonction Callback à appeler lors de l'interruption
   * @retval None
   */
 void Active_IT_Debordement_Timer( TIM_TypeDef *Timer, char Prio, void (*IT_function)(void) );
@@ -93,10 +93,10 @@ void Active_IT_Debordement_Timer( TIM_TypeDef *Timer, char Prio, void (*IT_funct
 	* @brief  Configure un timer en PWM 
   * @note   
 	* @param  *Timer = TIM1 ou TIM2 ou TIM3 ou TIM4
-	* @param  voie : un des 4 canaux possibles 1 Ã  4.
-	* @param  Periode_ticks : nombre de pas (tick) comptÃ©s Ã  72 MHz pour faire dÃ©border le timer 
-	*         La pÃ©riode de dÃ©bordement du Timer est donc T = DurÃ©e_ticks * Tck, avec Tck = 1/72 000 000
-  * @retval Retourne la pÃ©riode  en tick (normalement la mÃªme que le param d'entrÃ©e sauf si PSC utilisÃ©
+	* @param  voie : un des 4 canaux possibles 1 à 4.
+	* @param  Periode_ticks : nombre de pas (tick) comptés à 72 MHz pour faire déborder le timer 
+	*         La période de débordement du Timer est donc T = Durée_ticks * Tck, avec Tck = 1/72 000 000
+  * @retval Retourne la période  en tick (normalement la même que le param d'entrée sauf si PSC utilisé
   */
 unsigned short int PWM_Init_ff( TIM_TypeDef *Timer, char Voie, u32 Periode_ticks );
 
@@ -105,8 +105,8 @@ unsigned short int PWM_Init_ff( TIM_TypeDef *Timer, char Voie, u32 Periode_ticks
 /**
 	* @brief  Fixe une valeur de PWM, Val, en tick horloge. La rapport cyclique effectif
 	* est donc : rcy = Thaut_ticks / Periode_ticks
-  * @note   spÃ©cifique Jeu Laser, PWM liÃ©e exclusivement au TIM3, chan3
-	* @param  Thaut_ticks : durÃ©e de l'Ã©tat haut d'une impulsion en Ticks
+  * @note   spécifique Jeu Laser, PWM liée exclusivement au TIM3, chan3
+	* @param  Thaut_ticks : durée de l'état haut d'une impulsion en Ticks
   * @retval None
   */
 void PWM_Set_Value_TIM3_Ch3( unsigned short int Thaut_ticks);
@@ -124,12 +124,12 @@ void PWM_Set_Value_TIM3_Ch3( unsigned short int Thaut_ticks);
 //**********************************************************************************************************
 
 /**
-	* @brief  Configure le timer Systick avec une pÃ©riodicitÃ© donnÃ©e
-  * @note   Ce timer ne peut servir qu'Ã  crÃ©er des temporisations ou gÃ©nÃ©rer des interruption
-	*         ce n'est pas Ã  proprement parler un pÃ©riphÃ©rique, il fait partie du Cortex M3
+	* @brief  Configure le timer Systick avec une périodicité donnée
+  * @note   Ce timer ne peut servir qu'à créer des temporisations ou générer des interruption
+	*         ce n'est pas à proprement parler un périphérique, il fait partie du Cortex M3
 	*         Ce timer est un 24 bits 
-	* @param  Periode_ticks : nombre de pas (tick) comptÃ©s Ã  72 MHz pour Ã©tablir la pÃ©riodicitÃ©
-	*          La pÃ©riode de dÃ©bordement du Timer est donc T = DurÃ©e_ticks * Tck, avec Tck = 1/72 000 000
+	* @param  Periode_ticks : nombre de pas (tick) comptés à 72 MHz pour établir la périodicité
+	*          La période de débordement du Timer est donc T = Durée_ticks * Tck, avec Tck = 1/72 000 000
   * @retval None
   */
 void Systick_Period_ff( unsigned int Periode_ticks );
@@ -137,10 +137,10 @@ void Systick_Period_ff( unsigned int Periode_ticks );
 
 
 /**
-	* @brief  Associe une fonction d'interruption (callback) lors du dÃ©bordement du Systick
+	* @brief  Associe une fonction d'interruption (callback) lors du débordement du Systick
   * @note   
-	* @param  Prio : niveau de prioritÃ© de l'interruption (0 -> prioritÃ© max, 15 ->  prioritÃ© min)
-	* @param  IT_function : le nom de la fonction Callback Ã  appeler lors de l'interruption
+	* @param  Prio : niveau de priorité de l'interruption (0 -> priorité max, 15 ->  priorité min)
+	* @param  IT_function : le nom de la fonction Callback à appeler lors de l'interruption
   * @retval None
   */
 void Systick_Prio_IT( char Prio, void (*Systick_function)(void) );
@@ -172,22 +172,22 @@ void Systick_Prio_IT( char Prio, void (*Systick_function)(void) );
 //**********************************************************************************************************
 
 /**
-	* @brief  Active l'ADC du STM32, configure la durÃ©e de prÃ©lÃ¨vement de l'Ã©chantillon (temps
+	* @brief  Active l'ADC du STM32, configure la durée de prélèvement de l'échantillon (temps
 	* de fermeture du switch d'acquisition
   * @note   
-	* @param  ADC : prÃ©cise de quel ADC il s'agit, ADC1 ou ADC2
-	* @param  Duree_Ech_ticks : dirÃ©e de fermeture du switch d'Ã©chantillonnage en Tick d'horloge CPU
-	*         exemple pour 1Âµs on choisira 72.
-  * @retval Nombre de Tick rÃ©ellement pris en compte
+	* @param  ADC : précise de quel ADC il s'agit, ADC1 ou ADC2
+	* @param  Duree_Ech_ticks : dirée de fermeture du switch d'échantillonnage en Tick d'horloge CPU
+	*         exemple pour 1µs on choisira 72.
+  * @retval Nombre de Tick réellement pris en compte
   */
 unsigned int Init_TimingADC_ActiveADC_ff( ADC_TypeDef * ADC, u32 Duree_Ech_ticks );
 
 
 /**
-	* @brief  SÃ©lectionne la voie Ã  convertir
-  * @note   Attention, la voie va de 0 Ã  15 et n'est pas directement liÃ© au nÂ°de GPIO
-	* @param  ADC : prÃ©cise de quel ADC il s'agit, ADC1 ou ADC2
-	* @param  Voie_ADC : 1 Ã  15
+	* @brief  Sélectionne la voie à convertir
+  * @note   Attention, la voie va de 0 à 15 et n'est pas directement lié au n°de GPIO
+	* @param  ADC : précise de quel ADC il s'agit, ADC1 ou ADC2
+	* @param  Voie_ADC : 1 à 15
   * @retval None
   */
 void Single_Channel_ADC( ADC_TypeDef * ADC, char Voie_ADC );
@@ -197,13 +197,13 @@ void Single_Channel_ADC( ADC_TypeDef * ADC, char Voie_ADC );
 
 
 /**
-	* @brief  Permet lier le dÃ©clenchement au dÃ©bordement d'un timer, spÃ©cifie Ã©galement
-	*         la pÃ©riode de dÃ©bordement du timer 
-  * @note   pas besoin de rÃ©gler le timer avec une autre fonction dÃ©diÃ©e timer
-	* @param  ADC : prÃ©cise de quel ADC il s'agit, ADC1 ou ADC2
-	* @param  Source : indique le timer qui dÃ©clenche l'ADC choix dans les define ci-dessous
-	* @param	Periode_ticks : nombre de pas (tick) comptÃ©s Ã  72 MHz pour faire dÃ©border le timer 
-	*         La pÃ©riode de dÃ©bordement du Timer est donc T = DurÃ©e_ticks * Tck, avec Tck = 1/72 000 000
+	* @brief  Permet lier le déclenchement au débordement d'un timer, spécifie également
+	*         la période de débordement du timer 
+  * @note   pas besoin de régler le timer avec une autre fonction dédiée timer
+	* @param  ADC : précise de quel ADC il s'agit, ADC1 ou ADC2
+	* @param  Source : indique le timer qui déclenche l'ADC choix dans les define ci-dessous
+	* @param	Periode_ticks : nombre de pas (tick) comptés à 72 MHz pour faire déborder le timer 
+	*         La période de débordement du Timer est donc T = Durée_ticks * Tck, avec Tck = 1/72 000 000
   * @retval None
   */
 
@@ -234,11 +234,11 @@ void Init_Conversion_On_Trig_Timer_ff( ADC_TypeDef * ADC, char Source, u32 Perio
 //**********************************************************************************************************
 
 /**
-	* @brief  Permer de lier l'ADC Ã  un tableau en RAM pour une DMA 
+	* @brief  Permer de lier l'ADC à un tableau en RAM pour une DMA 
   * @note   
-	* @param  Circ : circular. Si '0', en fin de DMA le ptr d'@ reste inchangÃ©
-	*         si '1' le ptr d'@ se recale Ã  celle du dÃ©but.
-	* @param  Ptr_Table_DMA : contient l'@ de dÃ©but de zone RAM Ã  Ã©crire
+	* @param  Circ : circular. Si '0', en fin de DMA le ptr d'@ reste inchangé
+	*         si '1' le ptr d'@ se recale à celle du début.
+	* @param  Ptr_Table_DMA : contient l'@ de début de zone RAM à écrire
 	* @retval None
   */
 void Init_ADC1_DMA1(char Circ, short int *Ptr_Table_DMA);
@@ -248,10 +248,10 @@ void Init_ADC1_DMA1(char Circ, short int *Ptr_Table_DMA);
 
 
 /**
-	* @brief  Lance une DMA sur le nombre de points spÃ©cifie. Les resultats seront stockes
-	*         dans la zone de RAM Ã©crite est indiquÃ©e lors de l'appel de la fonction  Init_ADC1_DMA1 
+	* @brief  Lance une DMA sur le nombre de points spécifie. Les resultats seront stockes
+	*         dans la zone de RAM écrite est indiquée lors de l'appel de la fonction  Init_ADC1_DMA1 
   * @note   
-	* @param  NbEchDMA est le nombre d'Ã©chantillons Ã  stocker.
+	* @param  NbEchDMA est le nombre d'échantillons à stocker.
 	* @retval None
   */
 void Start_DMA1( u16 NbEchDMA );
@@ -281,14 +281,14 @@ void Wait_On_End_Of_DMA1(void);
 //**********************************************************************************************************
 
 /**
-	* @brief  Initialisation d'un GPIO (A Ã  C), pin x. 
-  *  			peut Ãªtre configurÃ© :
+	* @brief  Initialisation d'un GPIO (A à C), pin x. 
+  *  			peut être configuré :
 	*  			-> Input ou output
 	*       -> architecture technologique (push-pull, open drain...)
 	
   * @note   
 	* @param  Port : GPIOA, GPIOB, GPIOC
-	* @param  Broche : 0 Ã  15
+	* @param  Broche : 0 à 15
 	* @param  Sens : INPUT ou OUTPUT
 	* @param  Techno : voir define ci dessous
 	* @retval 1 erreur, 0 si OK
@@ -298,7 +298,7 @@ void Wait_On_End_Of_DMA1(void);
 #define INPUT   'i'
 #define OUTPUT  'o'
 
-// Techno pour pin en entrÃ©e (INPUT)
+// Techno pour pin en entrée (INPUT)
 #define ANALOG              0
 #define INPUT_FLOATING      1
 #define INPUT_PULL_DOWN_UP  2
@@ -316,9 +316,9 @@ char GPIO_Configure(GPIO_TypeDef * Port, int Broche, int Sens, int Techno);
 
 
 /**
-	* @brief  Mise Ã  1 d'une broche GPIO	
+	* @brief  Mise à 1 d'une broche GPIO	
   * @note   Une fonction par GPIO
-	* @param  Broche : 0 Ã  15
+	* @param  Broche : 0 à 15
 	* @retval None
   */
 
@@ -329,9 +329,9 @@ void GPIOC_Set(char Broche);
 
 
 /**
-	* @brief  Mise Ã  0 d'une broche GPIO	
+	* @brief  Mise à 0 d'une broche GPIO	
   * @note   Une fonction par GPIO
-	* @param  Broche : 0 Ã  15
+	* @param  Broche : 0 à 15
 	* @retval None
   */
 

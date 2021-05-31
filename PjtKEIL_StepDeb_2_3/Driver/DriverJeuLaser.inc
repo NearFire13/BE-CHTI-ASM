@@ -1,6 +1,6 @@
 
-; Bibliotheque DriverJeuLaser (ancienne gassp72 adaptÃ©e 2021 - TR)
-; AccÃ¨s en aux fonctions suivantes :
+; Bibliotheque DriverJeuLaser (ancienne gassp72 adaptée 2021 - TR)
+; Accès en aux fonctions suivantes :
 ; GPIO :
 ; GPIOA_Set(char Broche), GPIOB_Set(char Broche), GPIOC_Set(char Broche)
 ; GPIOA_Clear(char Broche), GPIOB_Clear(char Broche), GPIOC_Clear(char Broche)
@@ -9,8 +9,8 @@
 ;/**
 ;	* @brief  Fixe une valeur de PWM, Val, en tick horloge. La rapport cyclique effectif
 ;	* est donc : rcy = Thaut_ticks / Periode_ticks
-; * @note   spÃ©cifique Jeu Laser, PWM liÃ©e exclusivement au TIM3, chan3
-;	* @param  Thaut_ticks : durÃ©e de l'Ã©tat haut d'une impulsion en Ticks
+; * @note   spécifique Jeu Laser, PWM liée exclusivement au TIM3, chan3
+;	* @param  Thaut_ticks : durée de l'état haut d'une impulsion en Ticks
 ;  * @retval None
 ; */
 
@@ -20,9 +20,9 @@
 
 
 ;/**
-;	* @brief  Mise Ã  1 d'une broche GPIO	
+;	* @brief  Mise à 1 d'une broche GPIO	
 ;  * @note   Une fonction par GPIO
-;	* @param  Broche : 0 Ã  15
+;	* @param  Broche : 0 à 15
 ;	* @retval None
 ; */
 
@@ -38,9 +38,9 @@
 
 
 ;/**
-;	* @brief  Mise Ã  0 d'une broche GPIO	
+;	* @brief  Mise à 0 d'une broche GPIO	
 ;  * @note   Une fonction par GPIO
-;	* @param  Broche : 0 Ã  15
+;	* @param  Broche : 0 à 15
 ;	* @retval None
 ;  */
 
