@@ -22,7 +22,7 @@
 ; écrire le code ici		
 		
 DFT_ModuleAuCarre proc
-	push	{r4, r5}
+	push	{r4-r7}
 	mov	r12, #0				; r2 = 0 (Index)
 	mov	r5, #0
 	
@@ -38,13 +38,19 @@ Boucle
 
 	; Lecture de TabCos
 	ldr 	r4, =TabCos
-	ldrsh	r3, [r4, r3, lsl #1]		; r3 = r4 + r1 * (2^1) (2 octets)
+	ldrsh	r4, [r4, r3, lsl #1]		; r3 = r4 + r1 * (2^1) (2 octets)
+
+	; Lecture de TabSin
+	ldr 	r5, =TabSin
+	ldrsh	r5, [r5, r3, lsl #1]		; r3 = r4 + r1 * (2^1) (2 octets)
 
 	; Multiplication
-	mul	r3, r2				; r3 = TabCos(p) * x(n)
+	mul	r4, r2				; r4 = TabCos(p) * x(n)
+	mul	r5, r2				; r5 = TabSin(p) * x(n)
 
 	; Somme
-	adds	r5, r3				; r5 += r3
+	adds	r6, r4				; r6 += r4
+	adds	r7, r5				; r7 += r5
 	
 	; Incrémentation de l'index
 	add	r12, #1				; r12 += 1
@@ -54,9 +60,10 @@ Boucle
 	blt	Boucle				; Boucle si condition vrai
 	
 	; Sinon on sort de la boucle (Index >= 64)
-	mov	r0, r5
+	;mov	r0, r6
+	mov	r0, r7
 	
-	pop 	{r4, r5}
+	pop 	{r4-r7}
 	bx 	lr
 	endp
 
