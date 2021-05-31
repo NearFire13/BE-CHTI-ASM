@@ -32,7 +32,7 @@ CallbackSon proc
 	ldr		r0, =Son				; r0 = Adresse de Son;
 	ldr		r1, =Index				; r1 = Adresse de Index;
 	ldr		r12, [r1]
-	ldrsh 	r12, [r0, r12, lsl #1]	; r2 = r0 + r12 * (2^1)
+	ldrsh 	r12, [r0, r12, lsl #1]	; r12 = r0 + r12 * (2^1)
 	
 	ldr		r0, [r1]
 	ldr		r2, =LongueurSon		; Adresse de r0
