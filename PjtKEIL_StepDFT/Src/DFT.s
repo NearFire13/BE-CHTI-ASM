@@ -23,13 +23,14 @@
 		
 DFT_ModuleAuCarre proc
 	push	{r4-r7}
-	mov	r12, #0				; r2 = 0 (Index)
+	mov	r12, #0							; r2 = 0 (Index)
 	mov	r5, #0
 	
 Boucle
 	;r0 = Signal
 	;r1 = k
 	; Lecture de LeSignal
+	; e2 format 1.12
 	ldrsh 	r2, [r0, r12, lsl #1]		; r2 = r0 + r12 * (2^1) (2 octets)
 	
 	; Calcul de p
@@ -37,38 +38,54 @@ Boucle
 	and	r3, #63				; p = p mod 64 (p%64)
 
 	; Lecture de TabCos
+	; r4 format 1.15
 	ldr 	r4, =TabCos
 	ldrsh	r4, [r4, r3, lsl #1]		; r3 = r4 + r1 * (2^1) (2 octets)
 
 	; Lecture de TabSin
+	; r5 format 1.15
 	ldr 	r5, =TabSin
 	ldrsh	r5, [r5, r3, lsl #1]		; r3 = r4 + r1 * (2^1) (2 octets)
 
 	; Multiplication
-	mul	r4, r2				; r4 = TabCos(p) * x(n)
-	mul	r5, r2				; r5 = TabSin(p) * x(n)
+	; format 2.27
+	mul	r4, r2							; r4 = TabCos(p) * x(n)
+	mul	r5, r2							; r5 = TabSin(p) * x(n)
+	
+	; Enlève bit (format 2.24)
+	asr	r4, #3
+	asr	r5, #3
 
 	; Somme
-	adds	r6, r4				; r6 += r4
-	adds	r7, r5				; r7 += r5
+	; format 8.24
+	adds	r6, r4						; r6 += r4
+	adds	r7, r5						; r7 += r5
 	
 	; Incrémentation de l'index
-	add	r12, #1				; r12 += 1
+	add	r12, #1							; r12 += 1
 	
 	; Index < 64
-	cmp	r12, #64			; r12 < 64
-	blt	Boucle				; Boucle si condition vrai
+	cmp	r12, #64						; r12 < 64
+	blt	Boucle							; Boucle si condition vrai
 	
 	; Sinon on sort de la boucle (Index >= 64)
 	;mov	r0, r6
 	;mov	r0, r7
 
 	; Module au carré
-	mov r0,#0
-	mov r1,#0
-
-	smull r1,r0,r6,r6			; 32 bits : r1 = r6 * r6 / r0 = r1 (Réel)
-	smlal r1,r0,r7,r7			; 64 bits : r1 = r7 * r7 / r0 = r0 + r1 (Réel + Imaginaire)
+	mov r0, #0
+	mov r1, #0
+	
+	; Enlève bit (format 8.20)
+	asr	r6, #4
+	asr	r7, #4
+	
+	; format 16.40
+	; r0 format 16.8
+	smull r1, r0, r6, r6				; 64 bits : r1 = r6 * r6 / r0 = r1 (Réel)
+	; format 16.40
+	; r0 format 16.8
+	smlal r1, r0, r7, r7				; 64 bits : r1 = r7 * r7 / r0 = r0 + r1 (Réel + Imaginaire)
 
 	
 	pop 	{r4-r7}
