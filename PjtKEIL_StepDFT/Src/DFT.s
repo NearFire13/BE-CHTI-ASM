@@ -61,7 +61,15 @@ Boucle
 	
 	; Sinon on sort de la boucle (Index >= 64)
 	;mov	r0, r6
-	mov	r0, r7
+	;mov	r0, r7
+
+	; Module au carré
+	mov r0,#0
+	mov r1,#0
+
+	smull r1,r0,r6,r6			; 32 bits : r1 = r6 * r6 / r0 = r1 (Réel)
+	smlal r1,r0,r7,r7			; 64 bits : r1 = r7 * r7 / r0 = r0 + r1 (Réel + Imaginaire)
+
 	
 	pop 	{r4-r7}
 	bx 	lr
